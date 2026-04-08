@@ -383,19 +383,7 @@ const FH = {
 };
 window.FH = FH;
 
-// 사이드메뉴 toggle
 $(function() {
-    $(".btn-dep1.flip").on("click", function(){
-        const $li = $(this).closest("li");
-        const $sub = $li.find("ul.dep2");
-        const wasOpen = $sub.is(":visible");
-        $("ul.dep2").slideUp(200);
-        $(".btn-dep1.flip").parent("li").removeClass("active");
-        if (!wasOpen) {
-            $sub.slideDown(200);
-            $li.addClass("active");
-        }
-    });
     FH.init();
 });
 </script>

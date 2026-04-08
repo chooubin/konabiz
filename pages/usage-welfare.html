@@ -398,15 +398,6 @@ const FH = {
 window.FH = FH;
 
 $(function() {
-    $(".btn-dep1.flip").on("click", function(){
-        const $li = $(this).closest("li");
-        const $sub = $li.find("ul.dep2");
-        const wasOpen = $sub.is(":visible");
-        $("ul.dep2").not($li.find("ul.dep2")).slideUp(200);
-        $(".btn-dep1.flip").parent("li").not($li).removeClass("active");
-        if (!wasOpen) { $sub.slideDown(200); $li.addClass("active"); }
-        else { $sub.slideUp(200); $li.removeClass("active"); }
-    });
     FH.init();
 });
 </script>
