@@ -1,0 +1,115 @@
+/**
+ *
+ * @param x
+ * @param y
+ * @returns {string}
+ */
+function chartColor(x, y) {
+    var color = [
+        //backgroundColor,      borderColor,          hoverBackgroundColor,   hoverBorderColor
+        ['#1bbc9d', 'RGBA(27, 188, 157, 1.0)', 'RGBA(27, 188, 157, 0.8)', 'RGBA(27, 188, 157, 1.0)'],   //0
+        ['#ffb400', 'RGBA(255,180, 0, 1.0)', 'RGBA(255,180, 0, 0.8)', 'RGBA(255,180, 0, 1.0)'],         //1
+        ['#61c8fe', 'RGBA(97, 200, 254, 1.0)', 'RGBA(97, 200, 254, 0.8)', 'RGBA(97, 200, 254, 1.0)'],   //2
+        ['#09a29d', 'RGBA(9, 162, 157, 1.0)', 'RGBA(9, 162, 157, 0.8)', 'RGBA(9, 162, 157, 1.0)'],      //3
+        ['#ff8400', 'RGBA(255, 132, 0, 1.0)', 'RGBA(255, 132, 0, 0.8)', 'RGBA(255, 132, 0, 1.0)'],      //4
+        ['#3b8bce', 'RGBA(59, 139, 206, 1.0)', 'RGBA(59, 139, 206, 0.8)', 'RGBA(59, 139, 206, 1.0)'],   //5
+        ['#006f8f', 'RGBA(0, 111, 143, 1.0)', 'RGBA(0, 111, 143, 0.8)', 'RGBA(0, 111, 143, 1.0)'],      //6
+        ['#8eb24b', 'RGBA(142, 178, 75, 1.0)', 'RGBA(142, 178, 75, 0.8)', 'RGBA(142, 178, 75, 1.0)'],   //7
+        ['#b34b4b', 'RGBA(179, 75, 75, 1.0)', 'RGBA(179, 75, 75, 0.8)', 'RGBA(179, 75, 75, 1.0)'],      //8
+    ]
+    return color[x][y];
+}
+
+
+const barColor = [
+    '#00a65a',
+    '#dd4b39',
+    '#f39c12',
+    '#00c0ef',
+    '#3c8dbc',
+    '#1bbc9d',
+    '#ffb400',
+    '#61c8fe',
+    '#09a29d',
+    '#ff8400',
+    '#3b8bce',
+    '#006f8f',
+    '#8eb24b',
+    '#b34b4b',
+    '#f44336',
+    '#e91e63',
+    '#9c27b0',
+    '#673ab7',
+    '#3f51b5',
+    '#2196f3',
+    '#03a9f4',
+    '#00bcd4',
+    '#009688',
+    '#4caf50',
+    '#8bc34a',
+    '#cddc39',
+    '#ffeb3b',
+    '#ffc107',
+    '#ff9800',
+    '#4d2f40',
+    '#795548',
+    '#9e9e9e'
+];
+
+/**
+ * Chart의 라인 색+투명도
+ *
+ * @param number
+ * @param alpha
+ * @returns {string}
+ */
+function reportColor(number, alpha) {
+    number = number % barColor.length;
+    return hex2rgba(barColor[number], alpha);
+}
+
+/**
+ *
+ * @param hex
+ * @param alpha
+ * @returns {string}
+ */
+function hex2rgba(hex, alpha = 1) {
+    const [r, g, b] = hex.match(/\w\w/g).map(x => parseInt(x, 16));
+    return `rgba(${r},${g},${b},${alpha})`;
+}
+
+/**
+ *
+ * @param type
+ * @param value
+ * @param extra
+ * @returns {number|JSX.Element|string|*|string|null}
+ */
+function codeToHumanValue(type, value, extra) {
+    let code = String(value);
+    switch (type) {
+        case 'thousandSeparator':  /*숫자 천자리 콤마*/
+            if (code === 'null' || code === '' || code === 'undefined' || code === 'NaN') return '0';
+            return (
+                numberWithDelimiter(code)
+            );
+        case 'reportThousandSeparator':  /*숫자 천자리 콤마*/
+            if (code === 'null' || code === '' || code === 'undefined' || code === 'NaN' || code === '0') return '-';
+            return (
+                numberWithDelimiter(code)
+            );
+        case 'thousandSeparatorWithNull':  /*숫자 천자리 콤마 (null로 내려올 경우에만 하이픈)*/
+            if (code === 'null' || code === '' || code === 'undefined' || code === 'NaN') return '-';
+            return (
+                numberWithDelimiter(code)
+            );
+
+        default:
+            return code
+    }
+}
+
+function numberWithDelimiter(x) {
+    return String(x).replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
+}

@@ -1,261 +1,400 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>코나비즈 Mock DB Viewer</title>
-<style>
-:root{--primary:#0028b6;--primary-light:#e8eeff;--bg:#f5f7fa;--card:#fff;--border:#e2e8f0;--text:#1a202c;--text-sub:#64748b;--red:#ef4444;--green:#22c55e;--orange:#f59e0b;--radius:12px}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-header{background:linear-gradient(135deg,#0028b6 0%,#1e40af 50%,#3b82f6 100%);color:#fff;padding:24px 32px;display:flex;align-items:center;gap:16px;box-shadow:0 4px 20px rgba(0,40,182,.25)}
-header .logo{font-size:28px;font-weight:800;letter-spacing:-.5px}
-header .sub{font-size:14px;opacity:.8;margin-left:auto}
-.stats-bar{display:flex;gap:12px;padding:16px 32px;background:#fff;border-bottom:1px solid var(--border);overflow-x:auto}
-.stat-chip{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;background:var(--primary-light);font-size:13px;font-weight:600;white-space:nowrap;color:var(--primary)}
-.stat-chip .n{font-size:16px;font-weight:800}
-.container{max-width:1400px;margin:0 auto;padding:20px 32px}
-.tabs{display:flex;gap:4px;background:#fff;padding:8px;border-radius:var(--radius);margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);flex-wrap:wrap}
-.tab{padding:10px 20px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;border:none;background:transparent;color:var(--text-sub)}
-.tab:hover{background:var(--primary-light);color:var(--primary)}
-.tab.active{background:var(--primary);color:#fff}
-.search-bar{margin-bottom:16px;display:flex;gap:8px}
-.search-bar input{flex:1;padding:10px 16px;border:2px solid var(--border);border-radius:8px;font-size:14px;transition:border-color .2s}
-.search-bar input:focus{outline:none;border-color:var(--primary)}
-.search-bar .count{display:flex;align-items:center;font-size:13px;color:var(--text-sub);white-space:nowrap;font-weight:600}
-.card{background:var(--card);border-radius:var(--radius);box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
-.table-wrap{overflow-x:auto;max-height:70vh;overflow-y:auto}
-table{width:100%;border-collapse:collapse;font-size:13px}
-thead{position:sticky;top:0;z-index:2}
-th{background:#f8fafc;padding:12px 14px;text-align:left;font-weight:700;border-bottom:2px solid var(--border);white-space:nowrap;color:var(--text-sub);font-size:12px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;user-select:none}
-th:hover{background:var(--primary-light)}
-th .sort-icon{margin-left:4px;opacity:.4;font-size:10px}
-th.sorted .sort-icon{opacity:1;color:var(--primary)}
-td{padding:10px 14px;border-bottom:1px solid var(--border);white-space:nowrap;max-width:300px;overflow:hidden;text-overflow:ellipsis}
-tr:hover td{background:#f0f4ff}
-.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700}
-.badge-green{background:#dcfce7;color:#166534}
-.badge-red{background:#fee2e2;color:#991b1b}
-.badge-yellow{background:#fef9c3;color:#854d0e}
-.badge-blue{background:#dbeafe;color:#1e40af}
-.badge-gray{background:#f1f5f9;color:#475569}
-.company-selector{margin-bottom:16px;display:flex;gap:8px;align-items:center}
-.company-selector label{font-weight:700;font-size:14px;color:var(--text-sub)}
-.company-selector select{padding:8px 12px;border:2px solid var(--border);border-radius:8px;font-size:14px;font-weight:600}
-.empty{text-align:center;padding:60px;color:var(--text-sub)}
-.amount{font-family:'JetBrains Mono',monospace;text-align:right;font-variant-numeric:tabular-nums}
-footer{text-align:center;padding:24px;color:var(--text-sub);font-size:12px}
-@media(max-width:768px){
-  .container{padding:12px}
-  header{padding:16px}
-  .stats-bar{padding:12px 16px}
-  .tabs{gap:2px;padding:4px}
-  .tab{padding:8px 12px;font-size:12px}
-}
-</style>
+    <meta charset="utf-8">
+    <title>KONA BIZ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" type="text/css" href="assets/lib/toast/tui-grid-4.21.3.css">
+    <link rel="stylesheet" type="text/css" href="assets/lib/toast/tui-pagination-3.4.1.css">
+    <link rel="stylesheet" type="text/css" href="assets/styles/css/front.css">
+    <link rel="stylesheet" type="text/css" href="assets/styles/css/kbc.css">
+    <link rel="stylesheet" type="text/css" href="assets/lib/loading/loading.css">
+    <script type="text/javascript" src="assets/lib/js/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="assets/lib/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="assets/lib/js/swiper.min.js"></script>
+    <script type="text/javascript" src="assets/lib/toast/tui-pagination-3.4.1.js"></script>
+    <script type="text/javascript" src="assets/lib/toast/tui-grid-4.21.3.js"></script>
+    <script type="text/javascript" src="assets/lib/js/jquery.auto-complete.js"></script>
+    <script type="text/javascript" src="assets/lib/js/jquery.sumoselect.min.js"></script>
+    <script type="text/javascript" src="assets/lib/loading/loading.js"></script>
+    <script type="text/javascript" src="assets/lib/js/front.js"></script>
+    <script type="text/javascript" src="assets/lib/js/common_kbc.js"></script>
+    <script type="text/javascript" src="assets/lib/moment/moment.min.js"></script>
+    <script>
+        let KSM = {
+            targetWptlEntpNo: 1,
+            targetWptlUserNo: 1,
+            targetEntpNm: "주식회사 테크노바",
+            userLoginId: "admin@technova.co.kr",
+            wptlUserDvCd: "10",
+            wptlEntpStCd: "10",
+            wptlUserRoleCd: "10",
+            userNm: "관리자",
+            wptlEntpNo: 1,
+            wptlUserNo: 1,
+            role: "ROLE_AGENCY"
+        };
+        let $UPLOAD_FILE_URL = '';
+    </script>
+    <!-- Mock API 먼저 로드 -->
+    <script src="js/mock-api.js"></script>
 </head>
+
 <body>
-<header>
-  <div class="logo">코나비즈</div>
-  <div>Mock DB Interactive Viewer</div>
-  <div class="sub" id="metaInfo"></div>
-</header>
-<div class="stats-bar" id="statsBar"></div>
-<div class="container">
-  <div class="company-selector">
-    <label>기업 선택:</label>
-    <select id="companyFilter"><option value="">전체</option></select>
-  </div>
-  <div class="tabs" id="tabs"></div>
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="테이블 내 검색... (모든 컬럼)">
-    <div class="count"><span id="rowCount">0</span>&nbsp;건</div>
-  </div>
-  <div class="card">
-    <div class="table-wrap" id="tableWrap">
-      <div class="empty">데이터 로딩 중...</div>
+
+<div class="admin">
+    <!-- TOP HEADER -->
+    <div class="header">
+        <div class="left">
+            <h1><a href="./index.html">KONA BIZ</a></h1>
+        </div>
+        <div class="right">
+            <div class="user">
+                <i class="ico-user"></i>
+                <span>관리자</span>
+                <button class="btn-set" onclick="return false;"></button>
+            </div>
+            <button class="btn-log" onclick="alert('로그아웃 (Mock)')">로그아웃</button>
+        </div>
     </div>
-  </div>
+
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside>
+            <div class="scroll">
+                <div class="nav">
+                    <a href="./index.html" class="btn-dep1 active">
+                        <i class="ico-home"></i><span>대시보드</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <hr>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu1"></i><span>조직관리</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="./pages/employee.html" class="btn-dep2">임직원</a></li>
+                                <li><a href="#" class="btn-dep2">부서/직급/직책 관리</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu2"></i><span>카드 관리</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="#" class="btn-dep2">운영 상품</a></li>
+                                <li><a href="#" class="btn-dep2">복지 카드 관리</a></li>
+                                <li><a href="#" class="btn-dep2">법인 카드 관리</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu-trans"></i><span>지급/회수</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="./pages/trans-list.html" class="btn-dep2">지급/회수 관리</a></li>
+                                <li><a href="#" class="btn-dep2">정기지급 관리</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu3"></i><span>이용 관리</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="./pages/usage-welfare.html" class="btn-dep2">카드 이용 내역</a></li>
+                                <li><a href="#" class="btn-dep2">결제 실패 내역</a></li>
+                                <li><a href="./pages/deposit.html" class="btn-dep2">예치금 내역</a></li>
+                                <li><a href="#" class="btn-dep2">이용 대금 명세서</a></li>
+                                <li><a href="#" class="btn-dep2">연간 이용 내역</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <hr>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu4"></i><span>기업정보</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="#" class="btn-dep2">기업 정보</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <hr>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu6"></i><span>고객센터</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="#" class="btn-dep2">FAQ</a></li>
+                                <li><a href="#" class="btn-dep2">문의 현황</a></li>
+                                <li><a href="#" class="btn-dep2">공지사항</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-partnersvc"></i><span>제휴서비스</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="https://docs.channel.io/konabiz/ko/articles/c76884e6" target="_blank" class="btn-dep2">밀리의 서재</a></li>
+                                <li><a href="https://docs.channel.io/konabiz/ko/articles/edad73e3" target="_blank" class="btn-dep2">유니포스트</a></li>
+                            </ul>
+                        </li>
+                        <hr>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <div class="content">
+            <div class="content-inner">
+                <div class="content-body">
+                    <!-- 대시보드 콘텐츠: JS로 동적 렌더링 -->
+                </div>
+                <div class="content-foot">
+                    코나아이(주) | 사업자등록번호 : 109-81-53365 | 고객센터 : 1600-1726 | KONA BIZ CARD
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<footer>HND-20260408-008 소스코드 기반 Mock DB · Generated by 코나비즈 AI 에이전트 팀</footer>
+
+<a href="javascript:void(0);" class="btn-top"><span>TOP</span></a>
+
+<!-- 공지사항 팝업 -->
+<div class="modal toastui-editor-contents" id="noticePopup" style="display: none;">
+    <div class="modal modal-notice center-mode" tabindex="-1" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4><span id="popupSubject">공지 제목</span></h4>
+                </div>
+                <div class="modal-body padding30">
+                    <div class="notice-inner" id="popupContent">공지사항 내용</div>
+                    <div class="notice-link" id="popupLink" style="display: none;">
+                        <a class="blue4" href="javascript:void(0);">공지사항 바로가기</a>
+                    </div>
+                </div>
+                <div class="modal-btns">
+                    <button class="btn-type1 btn-l" onclick="FH.methods.closePopup();">닫기</button>
+                    <button class="btn-type2 btn-l btn-auto" onclick="FH.methods.checkAndClosePopup();">오늘 그만 보기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop"></div>
+</div>
 
 <script>
-let DB = {};
-let currentTab = '';
-let currentSort = { col: '', asc: true };
-let currentCompany = '';
+// ── Common Util stubs (not full Util, just what dashboard needs) ─────────────
+if (typeof Util === 'undefined') {
+    window.Util = {
+        isEmpty: v => v === null || v === undefined || v === '' || (Array.isArray(v) && v.length === 0),
+        deleteCookie: function(){},
+        replace: function(path){ location.href = path; },
+        href: function(path, params){ location.href = path; }
+    };
+}
+if (typeof startLoading === 'undefined') { window.startLoading = function(){}; window.stopLoading = function(){}; }
 
-const TABLE_CONFIG = {
-  companies: { label: '기업정보', icon: '🏢', companyKey: 'wptlEntpNo' },
-  products: { label: '운영상품', icon: '📦', companyKey: 'wptlEntpNo' },
-  employees: { label: '임직원', icon: '👤', companyKey: 'wptlEntpNo' },
-  cards: { label: '카드관리', icon: '💳', companyKey: 'wptlEntpNo' },
-  transactions: { label: '지급/회수', icon: '💰', companyKey: 'wptlEntpNo' },
-  regular_transactions: { label: '정기지급', icon: '📅', companyKey: null },
-  card_usages: { label: '이용내역', icon: '🛒', companyKey: 'wptlEntpNo' },
-  payment_failures: { label: '결제실패', icon: '⚠️', companyKey: null },
-  deposits: { label: '예치금', icon: '🏦', companyKey: 'wptlPrdNo' },
-  notices: { label: '공지사항', icon: '📢', companyKey: null },
-  dashboard_summary: { label: '대시보드', icon: '📊', companyKey: 'wptlEntpNo' }
-};
-
-const STATUS_BADGES = {
-  '재직': 'green', '완료': 'green', 'ACTIVE': 'green', 'APPROVED': 'green', 'Y': 'green',
-  '퇴사': 'red', '실패': 'red', '취소': 'red', 'SUSPENDED': 'red', 'BLOCKED': 'red',
-  '휴직': 'yellow', '대기': 'yellow', 'PENDING': 'yellow',
-  '수습': 'blue', 'N': 'gray'
-};
-
-function badge(val) {
-  const s = String(val);
-  const color = STATUS_BADGES[s];
-  return color ? `<span class="badge badge-${color}">${s}</span>` : s;
+// ── Toast stubs ──────────────────────────────────────────────────────────────
+if (typeof Toast === 'undefined') {
+    window.Toast = {
+        grid: null,
+        listInfo: { params: {} },
+        methods: {
+            setGrid: function(){},
+            setPagination: function(){},
+            getListInfo: function(cb){ if(cb) cb(); },
+            setListInfo: function(){},
+            setScroll: function(){}
+        }
+    };
 }
 
-function fmtCell(key, val) {
-  if (val === null || val === undefined) return '-';
-  const s = String(val);
-  if (['wptlEntpWkinStNm','dsbRtrvlStNm','dsbStTypeNm','cardStatus','appConnectYn','crdDsbNm','respNm','topExpsYn','smsNfctYnNm'].includes(key)) return badge(s);
-  if (key.toLowerCase().includes('amount') || key === 'pointAmt' || key === 'prdSllUprcCm' || key === 'totalAmount' || key === 'attempted_amount') {
-    const n = Number(s.replace(/,/g,''));
-    if (!isNaN(n)) return `<span class="amount">${n.toLocaleString('ko-KR')}</span>`;
-  }
-  return s.length > 60 ? s.substring(0,57) + '...' : s;
-}
+// ── Auth stubs ──────────────────────────────────────────────────────────────
+if (typeof AUTH === 'undefined') { window.AUTH = { isSendAuth: false, authToken: '', expired: false, countTime: 0, methods: { countDown(){}, stopCountDown(){}, resetAuth(){} } }; }
+if (typeof CM === 'undefined') { window.CM = { methods: { openUserModal(){}, doLogout(){}, expireCount(){} } }; }
 
-async function loadData() {
-  const res = await fetch('data.json');
-  DB = await res.json();
-  
-  document.getElementById('metaInfo').textContent = `v${DB.meta?.version || '?'} · Task ${DB.meta?.task_id || '?'}`;
-  
-  // Stats
-  const stats = [];
-  for (const [k, cfg] of Object.entries(TABLE_CONFIG)) {
-    if (DB[k]) stats.push(`<div class="stat-chip">${cfg.icon} ${cfg.label} <span class="n">${Array.isArray(DB[k]) ? DB[k].length : '—'}</span></div>`);
-  }
-  document.getElementById('statsBar').innerHTML = stats.join('');
-  
-  // Company filter
-  const sel = document.getElementById('companyFilter');
-  (DB.companies || []).forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c.wptlEntpNo;
-    opt.textContent = `${c.entpNm} (${c.wptlEntpNo})`;
-    sel.appendChild(opt);
-  });
-  sel.addEventListener('change', () => { currentCompany = sel.value; renderTable(); });
-  
-  // Tabs
-  const tabsEl = document.getElementById('tabs');
-  let first = true;
-  for (const [k, cfg] of Object.entries(TABLE_CONFIG)) {
-    if (!DB[k] || !Array.isArray(DB[k]) || DB[k].length === 0) continue;
-    const btn = document.createElement('button');
-    btn.className = 'tab' + (first ? ' active' : '');
-    btn.textContent = `${cfg.icon} ${cfg.label}`;
-    btn.dataset.key = k;
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-      currentTab = k;
-      currentSort = { col: '', asc: true };
-      renderTable();
-    });
-    tabsEl.appendChild(btn);
-    if (first) { currentTab = k; first = false; }
-  }
-  
-  document.getElementById('searchInput').addEventListener('input', renderTable);
-  renderTable();
-}
+// ── Dashboard FH ─────────────────────────────────────────────────────────────
+let _this;
+const FH = {
+    dashboardData: null,
+    topNoticeCount: 0,
+    noticeList: null,
+    methods: {
+        doGetDashBoardData: async function() {
+            const params = { wptlEntpNo: KSM.targetWptlEntpNo };
+            const res = await ServiceExec.post('/api/dashboard/doGetDashBoardData', params);
+            if (res.code === 1) { _this.dashboardData = res.entity; }
+        },
+        doGetNoticeList: async function() {
+            const res = await ServiceExec.post('/api/dashboard/doGetNoticeList');
+            if (res.code === 1) {
+                _this.topNoticeCount = 0;
+                _this.noticeList = res.entity;
+                if (!Util.isEmpty(res.entity)) {
+                    _this.topNoticeCount = res.entity.filter(item => item.topExpsYn === "Y").length;
+                }
+                _this.methods.renderDashboard();
+            }
+        },
+        renderDashboard: function() {
+            const d = _this.dashboardData;
+            const notices = _this.noticeList || [];
+            const productList = d ? (d.productList || []) : [];
+            const welfList = d ? (d.welfUseDataPerBizList || []) : [];
 
-function getFilteredData() {
-  let data = DB[currentTab] || [];
-  
-  // Company filter
-  if (currentCompany) {
-    const cfg = TABLE_CONFIG[currentTab];
-    if (cfg?.companyKey) {
-      data = data.filter(r => {
-        const v = r[cfg.companyKey];
-        return v !== undefined && String(v) === currentCompany;
-      });
+            // ── 업종별 사용현황 바 ──
+            let bizBarsHtml = welfList.length > 0 ? welfList.map((item, i) => `
+                <div class="bar color${i+1}">
+                    <strong>${item.bizLtypeName}</strong>
+                    <p><em style="width: ${item.welfUseRate}%"></em></p>
+                    <span>${item.welfUseRate}</span>
+                </div>
+            `).join('') : '<p style="color:#666; padding:20px;">데이터가 없습니다.</p>';
+
+            // ── 운영상품 슬라이더 ──
+            let productSlidesHtml = productList.map(prd => `
+                <div class="swiper-slide">
+                    <div class="item">
+                        <div class="img">
+                            <a href="#"><img src="assets/styles/image/favicon.ico" alt="카드이미지" style="width:80px; opacity:0.4;"></a>
+                        </div>
+                        <div class="info pdt0">
+                            <h3><a href="#">${prd.prdNm || ''} ${prd.prdId ? '(' + prd.prdId + ')' : ''}</a> <span class="label label-red">${prd.wptlPrdStNm || ''}</span></h3>
+                            <table>
+                                <colgroup><col style="width:180px"><col style="width:310px"><col style="width:130px"><col></colgroup>
+                                <tr>
+                                    <th>상품 유형</th><td>${prd.wptlPrdTypeNm || '-'}</td>
+                                    <th>카드 이름 표기</th><td>-</td>
+                                </tr>
+                                <tr>
+                                    <th>발급 유형</th><td>${prd.mbRltgCrdDvNm || '-'}</td>
+                                    <th>디자인</th><td>-</td>
+                                </tr>
+                                <tr>
+                                    <th>카드 수</th>
+                                    <td>${prd.useCrdCnt || '0'} (지급) / ${prd.totCrdCnt || '0'} (전체)</td>
+                                    <th>상품 가격</th><td>-</td>
+                                    <td class="text-right"><a href="#" class="btn-type4"><i class="ico-card"></i>카드 주문</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // ── 공지사항 tbody ──
+            let noticeTbody = notices.length > 0 ? notices.map((n, i) => `
+                <tr class="${n.topExpsYn === 'Y' ? 'bg' : ''}">
+                    <td>${n.topExpsYn === 'Y' ? '-' : (i + 1 - _this.topNoticeCount)}</td>
+                    <td class="text-left"><a href="#">${n.titNm || ''}</a></td>
+                    <td>-</td>
+                    <td>${n.inqCnt || 0}</td>
+                    <td>${n.sysCreDttm || ''}</td>
+                </tr>
+            `).join('') : '<tr><td colspan="5" style="font-size:14px; color:#4c5970;">No data.</td></tr>';
+
+            const html = `
+            <div class="dashboard">
+                <div class="industry-status">
+                    <div class="box box1">
+                        <h2 class="h2">
+                            업종별 사용현황
+                            <div class="pull-right">
+                                <a href="https://docs.channel.io/user/ko/articles/%EC%97%85%EC%A2%85%EB%B3%84-%EC%82%AC%EC%9A%A9%ED%98%84%ED%99%A9-1ada95db" target="_blank" class="btn-rect-type2">매뉴얼 바로가기</a>
+                            </div>
+                        </h2>
+                        <div class="section">
+                            <div class="article">
+                                <h3 class="h3-dashboard">복지카드</h3>
+                                <div class="info">${bizBarsHtml}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box2">
+                        <h2 class="h2">
+                            카드 간편등록
+                            <div class="pull-right">
+                                <a href="https://docs.channel.io/user/ko/articles/%EC%B9%B4%EB%93%9C-%EA%B0%84%ED%8E%B8%EB%93%B1%EB%A1%9D-e1062df6" target="_blank" class="btn-rect-type2">매뉴얼 바로가기</a>
+                            </div>
+                        </h2>
+                        <div class="section">
+                            <div class="article" style="overflow: unset;">
+                                <div class="info">
+                                    <strong>임직원들은 아래 버튼을 눌러 나타난 화면에서 임직원 정보와 카드정보를 입력해야 합니다.<br>임직원들에게 하단 버튼을 눌러 나타난 페이지 URL 주소를 공유해주세요.</strong>
+                                </div>
+                                <a href="#" class="btn-type4">실물 카드 간편등록</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                ${productList.length > 0 ? `
+                <div class="main-card">
+                    <h2 class="h2">
+                        운영상품 정보
+                        <div class="pull-right">
+                            <div class="swiper-pagination swiper-pagination-fraction"></div>
+                            <a href="https://docs.channel.io/user/ko/articles/%EC%9A%B4%EC%98%81%EC%83%81%ED%92%88-%EC%A0%95%EB%B3%B4-c1807e21" target="_blank" class="btn-rect-type2">매뉴얼 바로가기</a>
+                        </div>
+                    </h2>
+                    <div class="slider">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">${productSlidesHtml}</div>
+                        </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+                ` : ''}
+
+                <div class="main-notice">
+                    <h2 class="h2">공지사항
+                        <div class="pull-right"><a href="#" class="btn-type5 btn-s">더보기</a></div>
+                    </h2>
+                    <div class="table2">
+                        <table>
+                            <colgroup>
+                                <col style="width:95px"><col style=""><col style="width:120px"><col style="width:120px"><col style="width:160px">
+                            </colgroup>
+                            <thead>
+                                <tr><th>NO</th><th>제목</th><th>첨부파일</th><th>조회수</th><th>등록일</th></tr>
+                            </thead>
+                            <tbody>${noticeTbody}</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            `;
+            $(".content-body").html(html);
+
+            // swiper 초기화
+            if ($(".swiper-slide").length) {
+                new Swiper(".main-card .swiper-container", {
+                    navigation: {
+                        nextEl: ".main-card .swiper-button-next",
+                        prevEl: ".main-card .swiper-button-prev",
+                    },
+                    pagination: {
+                        el: ".main-card .swiper-pagination",
+                        type: "fraction",
+                    },
+                });
+            }
+        },
+        closePopup: function() { $("#noticePopup").hide(); },
+        checkAndClosePopup: function() { $("#noticePopup").hide(); }
+    },
+    init: async function() {
+        _this = this;
+        if (typeof Util !== 'undefined') Util.deleteCookie("listInfo");
+        await _this.methods.doGetDashBoardData();
+        await _this.methods.doGetNoticeList();
     }
-    // For tables linked via wptlPrdNo, match products of that company
-    if (cfg?.companyKey === 'wptlPrdNo' && DB.products) {
-      const prdNos = new Set(DB.products.filter(p => String(p.wptlEntpNo) === currentCompany).map(p => p.wptlPrdNo));
-      data = data.filter(r => prdNos.has(r.wptlPrdNo));
-    }
-  }
-  
-  // Search
-  const q = document.getElementById('searchInput').value.toLowerCase().trim();
-  if (q) {
-    data = data.filter(r => Object.values(r).some(v => v !== null && String(v).toLowerCase().includes(q)));
-  }
-  
-  // Sort
-  if (currentSort.col) {
-    data = [...data].sort((a, b) => {
-      const va = a[currentSort.col] ?? '';
-      const vb = b[currentSort.col] ?? '';
-      const na = Number(String(va).replace(/,/g,''));
-      const nb = Number(String(vb).replace(/,/g,''));
-      if (!isNaN(na) && !isNaN(nb)) return currentSort.asc ? na - nb : nb - na;
-      return currentSort.asc ? String(va).localeCompare(String(vb), 'ko') : String(vb).localeCompare(String(va), 'ko');
-    });
-  }
-  
-  return data;
-}
+};
+window.FH = FH;
 
-function renderTable() {
-  const data = getFilteredData();
-  document.getElementById('rowCount').textContent = data.length;
-  
-  if (data.length === 0) {
-    document.getElementById('tableWrap').innerHTML = '<div class="empty">데이터가 없습니다</div>';
-    return;
-  }
-  
-  // Skip internal/masking keys for cleaner display
-  const skipKeys = new Set(['unmaskStfNm','unmaskCdno','maskStfNm','maskCdno','unmaskVtlAcno']);
-  const keys = Object.keys(data[0]).filter(k => !skipKeys.has(k));
-  
-  let html = '<table><thead><tr>';
-  html += '<th style="width:60px">#</th>';
-  keys.forEach(k => {
-    const sorted = currentSort.col === k;
-    const arrow = sorted ? (currentSort.asc ? '▲' : '▼') : '⇅';
-    html += `<th class="${sorted ? 'sorted' : ''}" data-col="${k}">${k} <span class="sort-icon">${arrow}</span></th>`;
-  });
-  html += '</tr></thead><tbody>';
-  
-  const limit = Math.min(data.length, 500);
-  for (let i = 0; i < limit; i++) {
-    html += '<tr>';
-    html += `<td style="color:var(--text-sub);font-size:12px">${i + 1}</td>`;
-    keys.forEach(k => { html += `<td>${fmtCell(k, data[i][k])}</td>`; });
-    html += '</tr>';
-  }
-  if (data.length > 500) html += `<tr><td colspan="${keys.length+1}" style="text-align:center;color:var(--text-sub);padding:20px">... ${data.length - 500}건 추가 (총 ${data.length}건)</td></tr>`;
-  html += '</tbody></table>';
-  
-  document.getElementById('tableWrap').innerHTML = html;
-  
-  // Sort click handlers
-  document.querySelectorAll('th[data-col]').forEach(th => {
-    th.addEventListener('click', () => {
-      const col = th.dataset.col;
-      if (currentSort.col === col) currentSort.asc = !currentSort.asc;
-      else { currentSort.col = col; currentSort.asc = true; }
-      renderTable();
+// 사이드메뉴 toggle
+$(function() {
+    $(".btn-dep1.flip").on("click", function(){
+        const $li = $(this).closest("li");
+        const $sub = $li.find("ul.dep2");
+        const wasOpen = $sub.is(":visible");
+        $("ul.dep2").slideUp(200);
+        $(".btn-dep1.flip").parent("li").removeClass("active");
+        if (!wasOpen) {
+            $sub.slideDown(200);
+            $li.addClass("active");
+        }
     });
-  });
-}
-
-loadData();
+    FH.init();
+});
 </script>
 </body>
 </html>

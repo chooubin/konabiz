@@ -1,0 +1,386 @@
+@charset "utf-8";
+
+html {
+    line-height: 1.15;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    height: 100%;
+    font-size: 13px;
+}
+
+body {
+    margin: 0;
+    color: rgb(0, 0, 0);
+}
+
+h2 {
+    font-size: 15px;
+}
+
+.top {
+    background-color: #fabb3e;
+    height: 50px;
+}
+
+.t_left {
+    text-align: left !important;
+}
+
+.t_right {
+    text-align: right !important;
+}
+
+.top-left img {
+    margin: 10px 10px 10px 20px;
+    vertical-align: middle;
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.top-left span {
+    font-weight: bold;
+    font-size: 16px;
+    vertical-align: middle;
+    letter-spacing: 0;
+}
+
+.top-right {
+    top: 0;
+    position: absolute;
+    right: 0;
+}
+
+.top-right .clock {
+    line-height: 50px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.middle {
+    display: flex;
+    top: 50px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+}
+
+.left {
+    flex-shrink: 0;
+    width: 200px;
+    background: #333333;
+    color: #ffffff;
+    padding-top: 20px;
+}
+
+.left ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.left li {
+    padding: 15px;
+    cursor: pointer;
+    letter-spacing: -1.0px;
+}
+
+.left li span {
+    font-size: 10px;
+    vertical-align: top;
+    padding-right: 7px;
+}
+
+.left li.on {
+    background: #fddb93;
+    color: #000000;
+    font-weight: bold;
+}
+
+.main {
+    flex-grow: 1;
+    background: #f2f2f2;
+}
+
+.content {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    bottom: 20px;
+    left: 220px;
+    background: #ffffff;
+    padding: 15px 215px 15px 15px;
+    overflow-y: scroll;
+    display: grid;
+    box-sizing: border-box;
+    grid-template-columns: 50% 50%;
+}
+
+.content_chart {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    bottom: 20px;
+    left: 220px;
+    background: #ffffff;
+    padding: 15px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+}
+
+.content_chart h2 {
+    font-size: 25px;
+    display: inline-block;
+    color: #888888;
+    cursor: pointer;
+    border: 1px solid #888888;
+    border-bottom: none;
+    margin-right: 5px;
+    padding: 8px 16px 8px;
+    border-radius: 10px 10px 0 0;
+    margin-top: 5px;
+}
+
+.content_chart h2.active {
+    color: #ffffff;
+    background: #000000;
+    padding-top: 15px;
+}
+
+.content_chart div#myChartTotal1 {
+    position: absolute;
+    top: 25px;
+    right: 40px;
+    border-radius: 30px;
+    background: #333333;
+    color: #ffffff;
+    padding: 13px 25px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.content-div {
+    box-sizing: border-box;
+    margin: 2px;
+}
+
+.content_table {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    bottom: 20px;
+    left: 20px;
+    background: #ffffff;
+    padding: 15px;
+    overflow-y: scroll;
+    display: block;
+    box-sizing: border-box;
+}
+
+.tb_list > table {
+    width: 100%;
+    min-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-top: 1px solid #2a3137;
+    border-bottom: 1px solid #e1e1e1
+}
+
+.tb_list tr {
+    height: 45px;
+}
+
+.tb_list th {
+    font-size: 13px;
+    text-align: center;
+    border-bottom: 1px solid #e1e1e1;
+    color: #000;
+    vertical-align: middle;
+    background: url(../image/td_line.png) no-repeat left bottom #f8f9fa;
+}
+
+.tb_list td {
+    padding-right: 10px;
+    text-align: center;
+    border-top: 1px solid #f0f0f0;
+    color: #666;
+    vertical-align: middle;
+    background: url(../image/td_line.png) no-repeat left bottom;
+}
+
+.reportSum td {
+    font-weight: bold !important;
+    background-color: #FFF8DC !important;
+}
+
+.tb_list td:first-child {
+    background: none;
+    padding-left: 10px;
+}
+
+.tb_list tr:first-child > td {
+    border-top: 0;
+}
+
+.tb_list tbody tr:hover {
+    background: #f8f9fa !important;
+}
+
+.reportSum td {
+    font-weight: bold !important;
+    background-color: #FFF8DC !important;
+}
+
+tr.reportSumHead {
+    border-top: 1px solid #e1e1e1;
+}
+
+.legend {
+    width: 200px;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: #ffffff;
+    padding: 15px 0 10px 10px;
+    box-sizing: border-box;
+    border-left: 15px solid #f2f2f2;
+    bottom: 20px;
+}
+
+.legend div {
+    width: 30px;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 4px;
+}
+
+.legend ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.legend li {
+    line-height: 20px;
+    height: 20px;
+    margin-bottom: 2px;
+    letter-spacing: -1px;
+}
+
+.calendar {
+    width: 178px;
+    position: absolute;
+    bottom: 20px;
+    left: 8px;
+    background: #f2f2f2;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.calendar h3 {
+    display: block;
+    text-align: center;
+    font-size: inherit;
+    margin: 5px 0 15px 0;
+}
+
+.calendar table {
+    width: 100%;
+}
+
+.calendar table th {
+
+}
+
+.calendar table td {
+    text-align: center;
+    line-height: 18px;
+}
+
+.calendar .today {
+    background: #333333;
+    color: #ffffff;
+}
+
+.calendar .otherMonthDay {
+    color: #aaaaaa;
+}
+
+.chartControl {
+    width: 178px;
+    position: absolute;
+    bottom: 230px;
+    left: 8px;
+    background: #f2f2f2;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.loading {
+    background: #ffffff;
+    position: absolute;
+    top: 0;
+    z-index: 99999;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.loading .loadingMsg {
+    background: #fabb3e;
+    color: #ffffff;
+    margin-top: -100px;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 200px;
+    font-size: 20px;
+}
+
+.loading .progress {
+    position: relative;
+    top: 50%;
+    height: 3px;
+    background: red;
+    margin-top: -100px;
+    left: 0;
+    width: 0;
+}
+
+.status-zero {
+    letter-spacing: -1px;
+    font-weight: bold;
+}
+
+.status-decrease {
+    color: #367fa9 !important;
+    letter-spacing: -1px;
+    font-weight: bold;
+}
+
+.status-increase {
+    color: #ff4155 !important;
+    letter-spacing: -1px;
+    font-weight: bold;
+}
+
+.reportTdLeftLine {
+    border-left: 1px solid #f0f0f0;
+    background-image: none !important;
+}
+
+.reportGap {
+    height: 5px !important;
+}

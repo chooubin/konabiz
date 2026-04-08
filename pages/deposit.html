@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>KONA BIZ - 예치금 내역</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" type="text/css" href="../assets/lib/toast/tui-grid-4.21.3.css">
+    <link rel="stylesheet" type="text/css" href="../assets/lib/toast/tui-pagination-3.4.1.css">
+    <link rel="stylesheet" type="text/css" href="../assets/styles/css/front.css">
+    <link rel="stylesheet" type="text/css" href="../assets/styles/css/kbc.css">
+    <link rel="stylesheet" type="text/css" href="../assets/lib/loading/loading.css">
+    <script type="text/javascript" src="../assets/lib/js/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="../assets/lib/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../assets/lib/toast/tui-pagination-3.4.1.js"></script>
+    <script type="text/javascript" src="../assets/lib/toast/tui-grid-4.21.3.js"></script>
+    <script type="text/javascript" src="../assets/lib/js/jquery.sumoselect.min.js"></script>
+    <script type="text/javascript" src="../assets/lib/loading/loading.js"></script>
+    <script type="text/javascript" src="../assets/lib/js/front.js"></script>
+    <script type="text/javascript" src="../assets/lib/js/common_kbc.js"></script>
+    <script type="text/javascript" src="../assets/lib/moment/moment.min.js"></script>
+    <script>
+        let KSM = {
+            targetWptlEntpNo: 1, targetWptlUserNo: 1, targetEntpNm: "주식회사 테크노바",
+            userLoginId: "admin@technova.co.kr", wptlUserDvCd: "10", wptlEntpStCd: "10",
+            wptlUserRoleCd: "10", userNm: "관리자", wptlEntpNo: 1, wptlUserNo: 1, role: "ROLE_AGENCY"
+        };
+        let $UPLOAD_FILE_URL = '';
+    </script>
+    <script src="../js/mock-api.js"></script>
+</head>
+
+<body>
+
+<div class="admin">
+    <div class="header">
+        <div class="left"><h1><a href="../index.html">KONA BIZ</a></h1></div>
+        <div class="right">
+            <div class="user"><i class="ico-user"></i><span>관리자</span><button class="btn-set" onclick="return false;"></button></div>
+            <button class="btn-log" onclick="alert('로그아웃 (Mock)')">로그아웃</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <aside>
+            <div class="scroll">
+                <div class="nav">
+                    <a href="../index.html" class="btn-dep1"><i class="ico-home"></i><span>대시보드</span></a>
+                    <ul>
+                        <li>
+                            <hr>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu1"></i><span>조직관리</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="./employee.html" class="btn-dep2">임직원</a></li>
+                                <li><a href="#" class="btn-dep2">부서/직급/직책 관리</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu2"></i><span>카드 관리</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="#" class="btn-dep2">운영 상품</a></li>
+                                <li><a href="#" class="btn-dep2">복지 카드 관리</a></li>
+                                <li><a href="#" class="btn-dep2">법인 카드 관리</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu-trans"></i><span>지급/회수</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="./trans-list.html" class="btn-dep2">지급/회수 관리</a></li>
+                                <li><a href="#" class="btn-dep2">정기지급 관리</a></li>
+                            </ul>
+                        </li>
+                        <li class="active">
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu3"></i><span>이용 관리</span></a>
+                            <ul class="dep2" style="display:block">
+                                <li><a href="./usage-welfare.html" class="btn-dep2">카드 이용 내역</a></li>
+                                <li><a href="#" class="btn-dep2">결제 실패 내역</a></li>
+                                <li class="active"><a href="./deposit.html" class="btn-dep2">예치금 내역</a></li>
+                                <li><a href="#" class="btn-dep2">이용 대금 명세서</a></li>
+                                <li><a href="#" class="btn-dep2">연간 이용 내역</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <hr>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu4"></i><span>기업정보</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="#" class="btn-dep2">기업 정보</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <hr>
+                            <a href="javascript:void(0);" class="btn-dep1 flip"><i class="ico-menu6"></i><span>고객센터</span></a>
+                            <ul class="dep2" style="display:none">
+                                <li><a href="#" class="btn-dep2">FAQ</a></li>
+                                <li><a href="#" class="btn-dep2">문의 현황</a></li>
+                                <li><a href="#" class="btn-dep2">공지사항</a></li>
+                            </ul>
+                        </li>
+                        <hr>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <div class="content">
+            <div class="content-inner">
+                <div class="content-body">
+                    <div class="h2-head srch-on" style="margin-bottom:0 !important;">
+                        <h2 class="h2" style="margin-bottom:0 !important;">
+                            예치금 내역
+                            <a href="https://docs.channel.io/user/ko/articles/%EC%98%88%EC%B9%98%EA%B8%88-%EB%82%B4%EC%97%AD-c36c0ee7" target="_blank" class="btn-rect-type2 ml10 mb5">매뉴얼 바로가기</a>
+                        </h2>
+                        <div class="right">
+                            <div class="before-srch">
+                                <a href="javascript:void(0);" class="btn-type6 btn-round btn-s" onclick="FH.methods.openDepositBalanceModal()">예치금 잔액</a>
+                                <button class="btn-srch"><span class="hidden">검색</span></button>
+                            </div>
+                            <div class="after-srch">
+                                <div class="inquiry-on">
+                                    <span>조회 후 닫힘</span>
+                                    <label><input type="checkbox" class="switch1" id="afterClose"><p><em></em></p></label>
+                                </div>
+                                <a href="javascript:void(0);" class="btn-type6 btn-round btn-s" onclick="FH.methods.openDepositBalanceModal()">예치금 잔액</a>
+                                <button class="btn-srch-close"><span class="hidden">닫기</span></button>
+                            </div>
+                        </div>
+                        <div class="mb10 help-block">
+                            <p>리포트 부분은 적용일 이후 익일 오전 7시 이후부터 확인이 가능합니다.</p>
+                            <p>우측 상단의 예치금 잔액 버튼을 클릭할 경우 실시간 잔액 조회가 가능합니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="board-srch">
+                        <form id="searchForm">
+                            <div class="table-box">
+                                <table>
+                                    <colgroup>
+                                        <col style="width:160px"><col style=""><col style="width:170px">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <th>상품명</th>
+                                            <td>
+                                                <select class="select" id="wptlPrdNo">
+                                                    <option value="">상품명을 선택해 주세요.</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>카드포인트/잔액명</th>
+                                            <td>
+                                                <select class="select" id="searchAccount" disabled>
+                                                    <option value="">카드포인트/잔액명을 선택해 주세요.</option>
+                                                </select>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>거래 기간</th>
+                                            <td>
+                                                <div class="td-col-box">
+                                                    <div class="date-box">
+                                                        <input type="text" class="inp calendar" id="searchStartDate" maxlength="10" autocomplete="off" readonly>
+                                                        <span>~</span>
+                                                        <input type="text" class="inp calendar" id="searchEndDate" maxlength="10" autocomplete="off" readonly>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="btns">
+                                <button type="button" class="btn-type1 btn-s btn-round reset">초기화</button>
+                                <button type="button" class="btn-type7 btn-s btn-round search">조회</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-head">
+                        <div class="left">
+                            <div>
+                                <a href="javascript:void(0);" class="btn-ico" onclick="FH.methods.doGetDepositList(-1)"><i class="ico-download"></i>다운로드</a>
+                            </div>
+                            <div>
+                                <h3 class="total">전체 <strong id="totalCount">0</strong></h3>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div>
+                                <select class="select-sort" id="viewCount">
+                                    <option value="50">50개씩 보기</option>
+                                    <option value="100">100개씩 보기</option>
+                                    <option value="200">200개씩 보기</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-content">
+                        <div class="table1" id="grid"></div>
+                    </div>
+                    <div class="pagenate" id="pagination"></div>
+                </div>
+
+                <div class="content-foot">
+                    코나아이(주) | 사업자등록번호 : 109-81-53365 | 고객센터 : 1600-1726 | KONA BIZ CARD
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="javascript:void(0);" class="btn-top"><span>TOP</span></a>
+
+<script type="text/javascript" src="../assets/js/common/Toast.js"></script>
+<script>
+if (typeof Util === 'undefined') {
+    window.Util = {
+        isEmpty: v => v === null || v === undefined || v === '' || (Array.isArray(v) && v.length === 0),
+        setCookie(){}, getCookie(){ return ''; }, deleteCookie(){},
+        replace(path){ location.href = path; }, href(path){ location.href = path; },
+        setDatePicker(){}, validateManualDates(){}
+    };
+}
+if (typeof startLoading === 'undefined') { window.startLoading = function(){}; window.stopLoading = function(){}; }
+if (typeof ConstCode === 'undefined') { window.ConstCode = { TRUE:'Y', FALSE:'N', CODES_PRODUCT:{ PRD_TYPE:{} } }; }
+</script>
+
+<script>
+let _this;
+const FH = {
+    params: {},
+    page: 1,
+    limit: 50,
+    totalCount: 0,
+    virtualNum: 0,
+    getList: function() { _this.methods.doGetDepositList(); },
+    events: {
+        changeEvent: function() {
+            $(document).on("change", "#wptlPrdNo", function() {
+                const prdNo = $(this).val();
+                if (prdNo) {
+                    $("#searchAccount").prop("disabled", false);
+                    FH.methods.doGetCashBalaDepositList(prdNo);
+                } else {
+                    $("#searchAccount").prop("disabled", true).html('<option value="">카드포인트/잔액명을 선택해 주세요.</option>');
+                }
+            });
+        }
+    },
+    methods: {
+        doGetProductList: async function() {
+            const params = { wptlEntpNo: KSM.targetWptlEntpNo };
+            const res = await ServiceExec.jsonPost('/common/doGetProductList', params);
+            if (res.code === 1) {
+                let html = '<option value="">상품명을 선택해 주세요.</option>';
+                res.entity.forEach(p => { html += `<option value="${p.wptlPrdNo}">${p.prdNm}</option>`; });
+                $("#wptlPrdNo").html(html);
+            }
+        },
+        doGetCashBalaDepositList: async function(prdNo) {
+            const res = await ServiceExec.post('/common/doGetCashBalaDepositList', { wptlEntpNo: KSM.targetWptlEntpNo, wptlPrdNo: prdNo });
+            if (res.code === 1) {
+                let html = '<option value="">카드포인트/잔액명을 선택해 주세요.</option>';
+                (res.entity || []).forEach(c => { html += `<option value="${c.crdCashId}">${c.crdCashNm}</option>`; });
+                $("#searchAccount").html(html);
+            }
+        },
+        setTable: function() {
+            Toast.methods.setGrid({
+                columns: [
+                    { header:'NO', align:'center', width:80, name:'rowKey', formatter:({row})=>((FH.page-1)*FH.limit)+(row.rowKey+1) },
+                    { header:'거래일', align:'center', width:140, name:'transDt' },
+                    { header:'입금액', align:'right', width:140, name:'depsAmount',
+                      formatter:({value})=>value||'-' },
+                    { header:'출금액', align:'right', width:140, name:'chargeAmount',
+                      formatter:({value})=>value||'-' },
+                    { header:'잔액', align:'right', width:140, name:'remainAmount',
+                      formatter:({value})=>value||'-' }
+                ]
+            });
+            _this.methods.doGetDepositList();
+        },
+        doGetDepositList: async function(type) {
+            if (!type) type = 1;
+            if (type === -1) {
+                if (_this.totalCount === 0) { alert("다운로드 할 데이터가 없습니다."); return; }
+                alert("다운로드 (Mock)"); return;
+            }
+            _this.params = {
+                page: _this.page,
+                limit: _this.limit,
+                wptlEntpNo: KSM.targetWptlEntpNo,
+                wptlPrdNo: $("#wptlPrdNo").val(),
+                searchAccount: $("#searchAccount").val(),
+                searchStartDate: $("#searchStartDate").val().trim(),
+                searchEndDate: $("#searchEndDate").val().trim()
+            };
+            const res = await ServiceExec.post('/api/deposit/doGetDepositList', _this.params);
+            if (res.code === 1) {
+                _this.totalCount = res.entity.totalCount;
+                $("#totalCount").text(_this.totalCount);
+                _this.virtualNum = res.entity.virtualNum;
+                Toast.grid.resetData(res.entity.list);
+                Toast.methods.setPagination();
+            } else {
+                alert(res.message);
+            }
+        },
+        openDepositBalanceModal: async function() {
+            const res = await ServiceExec.post('/api/deposit/doGetDepositBalance', { wptlEntpNo: KSM.targetWptlEntpNo });
+            if (res.code === 1) {
+                const amt = res.entity.depositBalanceAmt || '0';
+                alert('현재 예치금 잔액: ' + amt + ' 원');
+            }
+        }
+    },
+    init: async function() {
+        _this = this;
+        for (let fn in _this.events) _this.events[fn]();
+        await _this.methods.doGetProductList();
+        Toast.methods.getListInfo(FH.methods.setTable);
+    }
+};
+window.FH = FH;
+
+$(function() {
+    $(".btn-dep1.flip").on("click", function(){
+        const $li = $(this).closest("li");
+        const $sub = $li.find("ul.dep2");
+        const wasOpen = $sub.is(":visible");
+        $("ul.dep2").not($li.find("ul.dep2")).slideUp(200);
+        $(".btn-dep1.flip").parent("li").not($li).removeClass("active");
+        if (!wasOpen) { $sub.slideDown(200); $li.addClass("active"); }
+        else { $sub.slideUp(200); $li.removeClass("active"); }
+    });
+    FH.init();
+});
+</script>
+</body>
+</html>

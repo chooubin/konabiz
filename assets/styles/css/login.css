@@ -1,0 +1,510 @@
+@charset "utf-8";
+@import "reset.css";
+
+/* 기본선언 */
+*, *:after, *:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.hide {
+    display: none;
+}
+
+/* 구조선언 */
+/* 구조선언-공통 */
+html, body {
+    height: 100%;
+}
+
+body {
+    letter-spacing: -0.06em;
+    font-size: 13px;
+    min-width: 900px;
+}
+
+/* 구조선언-main */
+.main {
+    height: 100%;
+    position: relative;
+    min-width: 1280px;
+}
+
+section.header {
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    z-index: 100;
+}
+
+header {
+    position: absolute;
+    width: 100%;
+}
+
+main {
+    position: relative;
+    padding-left: 260px;
+    min-height: 100%;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    line-height: 15px;
+}
+
+.content {
+
+}
+
+.description + .content {
+    margin-top: 40px;
+}
+
+.cp {
+    cursor: pointer;
+}
+
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.content_left {
+    border-right: 1px dashed #ccc;
+    margin-right: 10px;
+    padding-right: 10px;
+}
+
+section.content {
+    padding: 0 20px 20px 20px;
+}
+
+.lnb {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    min-width: 212px;
+    color: #fff;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 9;
+    background: #2b3a48;
+}
+
+.nav {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.nav ul {
+    padding: 0;
+    list-style: none;
+}
+
+.nav p.nav-item {
+    line-height: 40px;
+    position: relative;
+    padding: 0 15px 0 15px;
+}
+
+.nav p.nav-item + ul li > p:before {
+    content: unset;
+}
+
+.nav p.nav-item a {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+}
+
+li.open > p.tabs-root:before,
+p.tabs-root.on:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #ffffff;
+}
+
+.nav li p.on,
+.nav li p:hover {
+    background: #cccccc88;
+    cursor: pointer;
+}
+
+ul.disabled {
+    display: none;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    color: #ccc;
+    text-align: center;
+    line-height: 30px;
+    width: 260px;
+    background: #2b3a48;
+}
+
+/* 구조선언-sub */
+.wrapper {
+    height: 100%;
+    position: relative;
+    overflow-y: scroll;
+}
+
+.header h2 {
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+    font-size: 20px;
+}
+
+.wrapper header {
+    padding: 20px;
+    position: absolute;
+}
+
+.wrapper2 {
+    height: 100%;
+    position: relative;
+    overflow-y: hidden;
+}
+
+/* */
+hr {
+    border-color: #f1f3f5;
+    margin: 2em 0;
+}
+
+hr.page {
+    border-style: dashed;
+    border-color: #ccc;
+}
+
+h3 {
+    font-size: 20px;
+}
+
+h3:before {
+    /*content: '-';*/
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.h50 {
+    height: 50px !important;
+}
+
+.h75 {
+    height: 75px !important;
+}
+
+.wd52 {
+    width: 52px !important;
+}
+
+.wd100 {
+    width: 100px !important;
+}
+
+.wd300 {
+    width: 300px !important;
+}
+
+.wd200 {
+    width: 200px !important;
+}
+
+.wd100p {
+    width: 100% !important;
+}
+
+.lh30 {
+    line-height: 30px;
+}
+
+.ml0 {
+    margin-left: 0 !important;
+}
+
+.ml10 {
+    margin-left: 10px !important;
+}
+
+.mt5 {
+    margin-top: 5px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.mt15 {
+    margin-top: 15px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.pr0 {
+    padding-right: 0 !important;
+}
+
+.f_left {
+    float: left;
+}
+
+.f_right {
+    float: right;
+}
+
+.t_left {
+    text-align: left !important;
+}
+
+.t_right {
+    text-align: right !important;
+}
+.tm_right {
+    text-align: right !important;
+    margin-right: 5px;
+}
+
+.t_center {
+    text-align: center !important;
+}
+
+.v_top {
+    vertical-align: top;
+}
+
+/* color */
+.c_red {
+    color: #f82244;
+}
+
+.c_green {
+    color: #45d8a3;
+}
+
+.c_info {
+    color: #3498db;
+}
+
+.c_success {
+    color: #07bc0c;
+}
+
+.c_warning {
+    color: #f1c40f;
+}
+
+.c_error {
+    color: #e74c3c;
+}
+
+.bc_gray {
+    background: #a3a9b2;
+}
+
+.bc_dark {
+    background: #5a6370;
+}
+
+.bc_black {
+    background: #000000;
+}
+
+.bc_info {
+    background: #3498db;
+}
+
+.bc_success {
+    background: #07bc0c;
+}
+
+.bc_warning {
+    background: #f1c40f;
+}
+
+.bc_error {
+    background: #e74c3c;
+}
+
+*:disabled {
+    background: #f8f9fa !important;
+    cursor: no-drop;
+    color: #888888;
+}
+
+/* page */
+/* login */
+body.login {
+    background: url(/assets/styles/image/login-bg.jpg) center center;
+    background-size: cover;
+}
+
+.loginForm h2,
+.loginForm dt {
+    display: none;
+}
+
+.loginForm {
+    background: #00000088;
+    color: #ffffff;
+    margin-top: -107px;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+}
+
+.loginForm_body {
+    margin: 0 auto;
+    width: 400px;
+    position: relative;
+}
+
+.loginForm_title {
+    font-size: 55px;
+    padding: 40px 0;
+    font-weight: bold;
+    height: 218px;
+}
+
+.loginForm_error {
+    font-size: 55px;
+    padding: 40px 0;
+    font-weight: bold;
+    height: 215px;
+}
+
+.loginForm_title span {
+    display: block;
+    line-height: 45px;
+    margin-top: 40px;
+}
+
+.loginForm_input {
+    position: relative;
+    top: -90px;
+    font-size: 19px;
+    line-height: 30px;
+    color: #aaa;
+    left: 5px;
+}
+
+.loginForm_body dd input {
+    height: 38px;
+    font-size: 14px;
+    padding: 3px 8px;
+    margin-bottom: 9px;
+    width: 360px;
+    color: #333333;
+}
+
+.loginForm_step1 h3,
+.loginForm_step2 h3 {
+    color: #888;
+}
+
+.loginForm_submit {
+    width: 65px;
+    height: 65px;
+    position: absolute;
+    right: 0;
+    top: 77px;
+}
+
+.profile {
+    position: absolute;
+    font-size: 25px;
+    color: #ff0000;
+    margin-top: -101px;
+    top: 50px;
+    left: 180px;
+    transform: rotate(350deg);
+    padding: 0;
+    margin: 0;
+}
+
+a.toHome {
+    text-align: right;
+    position: absolute;
+    left: 338px;
+    font-size: 22px;
+    text-decoration: none;
+    color: #888;
+    transition: all 0.2s
+}
+
+a.toHome:hover {
+    color: #fff;
+}
+
+a.loginForm_btn {
+    display: inline-block;
+    width: 65px;
+    height: 65px;
+    line-height: 55px;
+    text-align: center;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 37px;
+    color: #888;
+    transition: all 0.2s
+}
+
+a.loginForm_btn:hover {
+    border-color: #888;
+    color: #ffffff;
+}
+
+.loginForm_function {
+    height: 20px;
+    line-height: 20px;
+    font-size: 13px;
+}
+
+.loginForm_function a.btn {
+    background: none;
+    width: unset;
+    height: 20px;
+    line-height: 20px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.loginForm_footer {
+    text-align: center;
+    color: #aaa;
+    position: absolute;
+    bottom: -20px;
+    width: 100%;
+}
+
+.reportLinkArea {
+    position: absolute;
+    top: 50%;
+    font-size: 14px;
+    left: 5px;
+    margin-top: 70px;
+}
+
+.reportLinkArea a {
+    color: #ddd;
+    font-weight: normal;
+}

@@ -1,0 +1,22 @@
+@charset "utf-8";
+@font-face {
+    font-family: "Noto Sans KR";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Noto Sans Regular"), local("NotoSans-Regular"),
+        url(../fonts/NotoSansKR-Regular-Hestia.woff) format("woff");
+}
+
+@font-face {
+    font-family: "Noto Sans KR";
+    font-style: normal;
+    font-weight: 500;
+    src: local("Noto Sans Medium"), local("NotoSans-Medium"), url(../fonts/NotoSansKR-Medium-Hestia.woff) format("woff");
+}
+
+@font-face {
+    font-family: "Noto Sans KR";
+    font-style: bold;
+    font-weight: 600;
+    src: local("Noto Sans Bold"), local("NotoSans-Bold"), url(../fonts/NotoSansKR-Bold-Hestia.woff) format("woff");
+}

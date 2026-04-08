@@ -1,0 +1,156 @@
+/*!
+ * Toastify js 1.9.3
+ * https://github.com/apvarun/toastify-js
+ * @license MIT licensed
+ *
+ * Copyright (C) 2018 Varun A P
+ */
+
+.toastify {
+    color: #ffffff;
+    display: inline-block;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, .1), 0 2px 15px 0 rgba(0, 0, 0, .05);
+    position: fixed;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+    text-decoration: none;
+    z-index: 2147483647;
+    padding: 20px 50px 0 50px;
+    width: 508px;
+    box-sizing: border-box;
+    left: 50%;
+    margin-left: -254px;
+    min-height: 75px;
+    font-size: 13px;
+}
+
+.toastify.on {
+    opacity: 1;
+}
+
+.toastify-right {
+    right: 15px;
+}
+
+.toastify-left {
+    left: 15px;
+}
+
+.toastify-top {
+    top: -150px;
+}
+
+.toastify-bottom {
+    bottom: -150px;
+}
+
+.toastify-rounded {
+    border-radius: 25px;
+}
+
+.toastify-avatar {
+    width: 1.5em;
+    height: 1.5em;
+    margin: -7px 5px;
+    border-radius: 2px;
+}
+
+.toastify-center {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    max-width: fit-content;
+    max-width: -moz-fit-content;
+}
+
+/* Edited by hyjeong */
+.toastify-info {
+    background: #3498db;
+}
+
+.toastify-success {
+    background: #07bc0c;
+}
+
+.toastify-warning {
+    background: #f1c40f;
+    color: #333;
+}
+
+.toastify-error {
+    background: #e74c3c;
+}
+
+.toast-close {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0;
+    background: transparent;
+    outline: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    opacity: .7;
+    transition: .3s ease;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+    line-height: 0;
+    position: absolute;
+    top: 20px;
+    right: 10px;
+}
+
+.toast-close:after {
+    content: "";
+    display: block;
+    width: 25px;
+    height: 1px;
+    margin-top: 0px;
+    background: #fff;
+    -webkit-transform: rotateZ(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotateZ(45deg);
+}
+
+.toast-close:before {
+    content: "";
+    display: block;
+    width: 25px;
+    height: 1px;
+    margin-top: -1px;
+    background: #fff;
+    -webkit-transform: rotateZ(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotateZ(-45deg);
+}
+
+.toastify-process {
+    width: 30px;
+    background: #ffffffbb;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation-duration: 4.5s;
+    animation-name: toastifyProgress;
+}
+
+@keyframes toastifyProgress {
+    from {
+        height: 0;
+    }
+    to {
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .toastify-right, .toastify-left {
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        max-width: fit-content;
+    }
+}

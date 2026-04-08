@@ -1,0 +1,253 @@
+@charset "utf-8";
+@import url("fonts.css");
+
+/* 로그인, 아이디찾기, 비밀번호찾기, 회원가입 버튼 비활성화 */
+.member-inner1 button.disabled,
+.member-inner2 button.disabled {
+    background: #dadae4 !important;
+    border-color: #dadae4 !important;
+    color: #fff !important;
+    cursor: no-drop;
+}
+
+/* 대시보드 > 업종별 사용현황 > 업종 말줄임표 효과 */
+.industry-status .box1 .section .article .info .bar strong {
+    flex: 0 0 89px !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* 좌측 메뉴 > 대시보드 선택시 > 활성화 효과 */
+/* 240220 css 수정 */
+.admin .container aside .scroll .nav a.btn-dep1.active {
+    background-color: #173e89;
+    color: #fff;
+    font-weight: 500;
+}
+
+/* 좌측 메뉴 > 조직 관리 > 임직원 등록/수정 > 카드 번호 선택 > 카드 지급 모달 > 마우스 호버 효과 */
+.table1.card tbody tr {
+    cursor: pointer;
+}
+.table1.card tbody tr:hover {
+    background: #f4f4f9;
+}
+.table1.card tbody tr.disabled {
+    background: #f5f3f3;
+}
+
+/* 좌측 메뉴 > 카드 관리 > 복지,법인카드 관리 상세 > 수정 > 사용자 추가 > 사용자 조회 모달 > 마우스 호버 효과 */
+.sorting-team.emp tbody tr {
+    cursor: pointer;
+}
+.sorting-team.emp tbody tr:hover {
+    background: #f4f4f9;
+}
+.sorting-team.emp tbody tr.disabled {
+    background: #f5f3f3;
+}
+
+/* 좌측 메뉴 > 기업정보 > 운영자 등록/수정 > 입력 제목 영역 > 넓이 수정 (개행처리 방지) */
+.form-box1.type1 dl dt {
+    width: 130px !important;
+}
+
+/* 좌측 메뉴 > 관리자 > 상품 관리 > 상품 관리 상세 > 사용중인 기업 추가 > 기업조회 모달 > 마우스 호버 효과 */
+.sorting-team.entp tbody tr {
+    cursor: pointer;
+}
+.sorting-team.entp tbody tr:hover {
+    background: #f4f4f9;
+}
+.sorting-team.entp tbody tr.disabled {
+    background: #f5f3f3;
+}
+
+/* 좌측 메뉴 > 서비스,개인정보 이용 약관 > 신규등록/수정 > 유효성 문구 영역 > 폰트 효과*/
+.privacy h2 .msg {
+    font-size: 18px;
+    font-weight: 400;
+    color: #0028b6;
+    margin-left: 15px;
+}
+
+/* 데이트 피커 관련 */
+input.inp.calendar {
+    cursor: pointer;
+}
+div#ui-datepicker-div {
+    z-index: 9999 !important;
+}
+
+.ui-datepicker-title {
+    margin: 0 2em !important;
+}
+.ui-datepicker-title select {
+    appearance: auto;
+    font-size: 0.9em !important;
+}
+.ui-datepicker-calendar tbody td.ui-datepicker-week-end:first-child a {
+    color: red;
+}
+.ui-datepicker-calendar tbody td.ui-datepicker-week-end:last-child a {
+    color: blue;
+}
+
+/* toast grid table */
+div.tui-grid-header-area {
+    height: auto !important;
+    border: 0 none;
+}
+.tui-grid-body-area {
+    border: 0 none;
+}
+
+table.tui-grid-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+table.tui-grid-table tr,
+table.tui-grid-table th,
+table.tui-grid-table tbody,
+table.tui-grid-table td {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+table.tui-grid-table th:first-child {
+    border-left: 0;
+}
+/* 240220 css 수정 */
+table.tui-grid-table th.tui-grid-cell-header {
+    background: #112556;
+    border-top: none;
+    border-bottom: none;
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 400;
+    font-family: "Noto Sans KR"; /* border-left: 1px solid #4c5970; */
+    padding: 0 12px;
+    word-break: keep-all;
+}
+
+table.tui-grid-table tbody td:first-child {
+    border-left: 0;
+}
+table.tui-grid-table tbody td {
+    padding: 0 10px !important;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 18px;
+    border-left: 1px solid #dadae4;
+    border-bottom: 1px solid #dadae4;
+    background: #fff;
+}
+
+/* gird table - row header 테두리 */
+/* .tui-grid-lside-area .tui-grid-header-area table.tui-grid-table th.tui-grid-cell-row-header:last-child { border-right: 1px solid #4c5970 !important; } */
+.tui-grid-lside-area .tui-grid-body-area {
+    overflow: unset;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.tui-grid-lside-area .tui-grid-body-area::-webkit-scrollbar {
+    display: none;
+}
+
+/* gird table - row header 체크박스 */
+.tui-grid-lside-area .tui-grid-header-area table.tui-grid-table tr th.tui-grid-cell-row-header:last-child {
+    position: relative;
+}
+.tui-grid-lside-area .tui-grid-header-area table.tui-grid-table tr th.tui-grid-cell-row-header:last-child span {
+    position: absolute;
+    top: 15px;
+    left: 12px;
+}
+.tui-grid-lside-area .tui-grid-header-area table.tui-grid-table tr th.tui-grid-cell-row-header:last-child input {
+    zoom: 1.5;
+    cursor: pointer;
+}
+
+.tui-grid-lside-area .tui-grid-body-area table.tui-grid-table tr td.tui-grid-cell-row-header:last-child {
+    position: relative;
+}
+.tui-grid-lside-area .tui-grid-body-area table.tui-grid-table tr td.tui-grid-cell-row-header:last-child label {
+    position: absolute;
+    top: 11px;
+    left: 7px;
+}
+.tui-grid-lside-area .tui-grid-body-area .tui-grid-row-header-checkbox .hidden-input {
+    display: none;
+}
+.tui-grid-lside-area .tui-grid-body-area .tui-grid-row-header-checkbox .hidden-input + p {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}
+.tui-grid-lside-area .tui-grid-body-area .tui-grid-row-header-checkbox .hidden-input + p em {
+    display: inline-block;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    border-radius: 5px;
+    border: 1px solid #dbdbe5;
+    background: #fff;
+    position: relative;
+}
+.tui-grid-lside-area .tui-grid-body-area .tui-grid-row-header-checkbox .hidden-input + p em:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: url(../img/common/ico_agree_chk_tax.png) no-repeat 50% 50%;
+    background-size: 100% !important;
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: scale(0.5);
+}
+.tui-grid-lside-area .tui-grid-body-area .tui-grid-row-header-checkbox .hidden-input + p span {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 18px;
+}
+.tui-grid-lside-area .tui-grid-body-area .tui-grid-row-header-checkbox .hidden-input:checked + p em:before {
+    opacity: 1;
+    transform: scale(1.1);
+    border-radius: 5px;
+}
+
+/* grid table - row header 있는경우 */
+.tui-grid-lside-area .tui-grid-body-area table.tui-grid-table {
+    border-right: 1px solid #dadae4 !important;
+}
+
+/* grid table - 내용 줄바꿈 */
+table.tui-grid-table tbody th.tui-grid-cell-header {
+    white-space: normal;
+    word-break: break-all;
+}
+table.tui-grid-table tbody td .tui-grid-cell-content {
+    white-space: normal;
+    word-break: break-all;
+}
+
+/* grid table - 공지사항 리스트 > 상단 고정 > 배경색 변경 */
+.tui-grid-cell.topContent {
+    background-color: #ebebf4;
+}
+
+/* grid table - cell pointer */
+.tui-grid-cell-content.grid-pointer {
+    cursor: pointer;
+}
+
+/* toast ui editor */
+.toastui-editor-contents table {
+    border-radius: 22px;
+}
