@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>코나비즈 — 지급/회수 등록 (개별 설정 모드 프로토타입)</title>
+<style>
+:root{--primary:#0028b6;--primary-hover:#001d8a;--bg:#f5f7fa;--white:#fff;--border:#dde3ed;--text:#333;--text-sub:#7a8599;--red:#e53935;--blue-light:#e8eeff;--green:#2e7d32;--radius:4px;--shadow:0 1px 3px rgba(0,0,0,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans KR',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+
+/* === Layout === */
+.admin{display:flex;min-height:100vh}
+aside{width:220px;background:#1b2838;color:#fff;flex-shrink:0;padding-top:0}
+aside .logo{padding:20px 24px;font-size:20px;font-weight:800;border-bottom:1px solid rgba(255,255,255,.1)}
+aside .logo span{color:#5b9aff}
+aside .menu{padding:12px 0}
+aside .menu a{display:flex;align-items:center;gap:10px;padding:11px 24px;color:rgba(255,255,255,.7);text-decoration:none;font-size:13px;transition:.15s}
+aside .menu a:hover,aside .menu a.active{background:rgba(255,255,255,.08);color:#fff}
+aside .menu a.active{border-left:3px solid #5b9aff;padding-left:21px}
+aside .menu .sep{height:1px;background:rgba(255,255,255,.08);margin:8px 16px}
+aside .menu .group{padding:8px 24px 4px;font-size:11px;color:rgba(255,255,255,.35);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+
+.content{flex:1;display:flex;flex-direction:column}
+.top-bar{background:#fff;border-bottom:1px solid var(--border);padding:12px 28px;display:flex;align-items:center;justify-content:space-between}
+.top-bar h1{font-size:18px;font-weight:800;color:var(--primary)}
+.top-bar .user{font-size:13px;color:var(--text-sub)}
+.main{padding:24px 28px;flex:1;overflow-y:auto}
+
+/* === Typography === */
+h2.h2{font-size:20px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+h2.h2 .badge-new{background:var(--red);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
+h3.h3{font-size:15px;font-weight:700;margin:20px 0 10px;color:var(--text)}
+
+/* === Form Table === */
+.table-view3{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
+.table-view3 table{width:100%;border-collapse:collapse}
+.table-view3 th{background:#f8fafc;padding:12px 16px;text-align:left;font-weight:600;font-size:13px;border-bottom:1px solid var(--border);color:#555;white-space:nowrap;vertical-align:middle}
+.table-view3 td{padding:10px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+.table-view3 .required::after{content:" *";color:var(--red)}
+
+/* === Inputs === */
+.inp,.select{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;transition:border-color .15s}
+.inp:focus,.select:focus{outline:none;border-color:var(--primary)}
+.inp-sm{width:120px}
+.inp-date{width:130px}
+
+/* === Buttons === */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:var(--radius);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-outline{background:#fff;color:var(--primary);border:1px solid var(--primary)}
+.btn-outline:hover{background:var(--blue-light)}
+.btn-danger{background:#fff;color:var(--red);border:1px solid var(--red)}
+.btn-danger:hover{background:#fff0f0}
+.btn-gray{background:#f1f3f5;color:#555;border:1px solid var(--border)}
+.btn-gray:hover{background:#e9ecef}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-lg{padding:10px 24px;font-size:14px}
+.btn-block{width:100%}
+.btn-round{border-radius:20px}
+
+/* === Radio / Checkbox === */
+.radio-group{display:flex;gap:20px;align-items:center}
+.radio-group label{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px}
+.radio-group input{accent-color:var(--primary)}
+
+/* === Mode Selector === */
+.mode-selector{display:flex;gap:0;background:#f1f3f5;border-radius:8px;padding:3px;margin-bottom:16px}
+.mode-btn{flex:1;padding:10px 16px;text-align:center;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;border:none;background:transparent;color:var(--text-sub)}
+.mode-btn.active{background:#fff;color:var(--primary);box-shadow:var(--shadow)}
+.mode-btn:hover:not(.active){color:var(--text)}
+
+/* === Target Table === */
+.target-section{margin-top:16px}
+.target-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.target-header .total{font-size:14px;font-weight:600}
+.target-header .total strong{color:var(--primary);font-size:16px}
+
+.target-table{width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius);border-collapse:separate;border-spacing:0;overflow:hidden}
+.target-table thead th{background:#f8fafc;padding:10px 12px;font-size:12px;font-weight:700;color:#555;border-bottom:2px solid var(--border);text-align:center;white-space:nowrap;position:sticky;top:0;z-index:1}
+.target-table tbody td{padding:8px 10px;border-bottom:1px solid #f0f2f5;text-align:center;font-size:13px;vertical-align:middle}
+.target-table tbody tr:hover td{background:#f8faff}
+.target-table .inp-cell{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:3px;font-size:12px;text-align:center}
+.target-table .inp-cell:focus{border-color:var(--primary);outline:none}
+.target-table .select-cell{padding:5px 6px;border:1px solid var(--border);border-radius:3px;font-size:12px}
+.target-table .btn-del{background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:4px 8px}
+.target-table .btn-del:hover{color:var(--red)}
+.target-table .chk{accent-color:var(--primary)}
+.target-table .name-cell{color:var(--primary);font-weight:600}
+.target-table .card-cell{font-family:'JetBrains Mono',monospace;font-size:12px;color:#666}
+
+.table-scroll{max-height:400px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius)}
+
+/* === Bulk Apply === */
+.bulk-apply{background:var(--blue-light);border:1px solid #c5d5ff;border-radius:8px;padding:16px 20px;margin-bottom:16px}
+.bulk-apply .title{font-size:13px;font-weight:700;color:var(--primary);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.bulk-apply .fields{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.bulk-apply .field{display:flex;flex-direction:column;gap:3px}
+.bulk-apply .field label{font-size:11px;color:#555;font-weight:600}
+.bulk-apply .field .inp-cell,.bulk-apply .field .select-cell{width:140px;padding:7px 10px;font-size:13px}
+
+/* === Bottom Buttons === */
+.btn-bottom{display:flex;justify-content:flex-end;gap:10px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+
+/* === Toast / Status === */
+.status-msg{padding:12px 16px;border-radius:var(--radius);margin-bottom:12px;font-size:13px;display:none}
+.status-msg.show{display:flex;align-items:center;gap:8px}
+.status-msg.info{background:#e3f2fd;color:#1565c0;border:1px solid #90caf9}
+.status-msg.success{background:#e8f5e9;color:var(--green);border:1px solid #a5d6a7}
+
+/* === Summary Card === */
+.summary-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin-top:16px;display:flex;gap:24px;flex-wrap:wrap}
+.summary-card .item{display:flex;flex-direction:column;gap:2px}
+.summary-card .item .label{font-size:11px;color:var(--text-sub);font-weight:600}
+.summary-card .item .value{font-size:16px;font-weight:800;color:var(--primary)}
+.summary-card .item .value.red{color:var(--red)}
+
+/* === Tooltip === */
+.tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:#ddd;color:#666;border-radius:50%;font-size:10px;cursor:help;margin-left:4px}
+.tip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:6px 10px;border-radius:4px;font-size:11px;white-space:nowrap;z-index:10}
+</style>
+</head>
+<body>
+<div class="admin">
+  <!-- Sidebar -->
+  <aside>
+    <div class="logo">KONA <span>BIZ</span></div>
+    <div class="menu">
+      <a href="#">📊 대시보드</a>
+      <div class="sep"></div>
+      <div class="group">조직관리</div>
+      <a href="#">👤 임직원</a>
+      <a href="#">🏢 부서/직급/직책</a>
+      <div class="sep"></div>
+      <div class="group">카드 관리</div>
+      <a href="#">📦 운영 상품</a>
+      <a href="#">💳 복지 카드 관리</a>
+      <a href="#">💳 법인 카드 관리</a>
+      <div class="sep"></div>
+      <div class="group">지급/회수</div>
+      <a href="#">📋 지급/회수 관리</a>
+      <a href="#" class="active">✏️ 지급/회수 등록</a>
+      <a href="#">📅 정기지급 관리</a>
+      <div class="sep"></div>
+      <div class="group">이용 관리</div>
+      <a href="#">🛒 카드 이용 내역</a>
+      <a href="#">⚠️ 결제 실패 내역</a>
+      <a href="#">🏦 예치금 내역</a>
+    </div>
+  </aside>
+
+  <div class="content">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <h1>KONA BIZ</h1>
+      <div class="user">👤 김관리 (admin@technova.co.kr) | 주식회사 테크노바</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <h2 class="h2">지급 / 회수 등록 <span class="badge-new">P0 개선</span></h2>
+
+      <div id="statusMsg" class="status-msg info">
+        <span>💡</span> <span id="statusText"></span>
+      </div>
+
+      <!-- Common Settings -->
+      <h3 class="h3">- 기본 설정</h3>
+      <div class="table-view3">
+        <table>
+          <colgroup><col style="width:14%"><col style="width:36%"><col style="width:14%"><col></colgroup>
+          <tbody>
+            <tr>
+              <th class="required">상품명</th>
+              <td>
+                <select class="select" id="productSelect">
+                  <option value="">선택해 주세요.</option>
+                  <option value="1" selected>테크노바 복지카드 (PRD-001)</option>
+                  <option value="2">테크노바 법인카드 (PRD-002)</option>
+                </select>
+              </td>
+              <th class="required">지급/회수 분류</th>
+              <td>
+                <select class="select" id="transType">
+                  <option value="">선택해 주세요.</option>
+                  <option value="10" selected>카드포인트 지급</option>
+                  <option value="20">카드포인트 회수</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th class="required">카드포인트/잔액명</th>
+              <td>
+                <select class="select">
+                  <option value="cash1" selected>복지포인트</option>
+                </select>
+              </td>
+              <td colspan="2"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mode Selector -->
+      <h3 class="h3">- 대상자 등록 방식</h3>
+      <div class="mode-selector">
+        <button class="mode-btn" onclick="setMode('each')">개별 등록 (기존)</button>
+        <button class="mode-btn" onclick="setMode('excel')">일괄 등록 — Excel (기존)</button>
+        <button class="mode-btn active" onclick="setMode('individual')">개별 설정 등록 (신규) ✨</button>
+      </div>
+
+      <!-- Individual Settings Mode -->
+      <div id="individualMode">
+
+        <!-- Common Fields (shown in each/excel mode, hidden in individual) -->
+        <div id="commonFields" style="display:none;">
+          <div class="table-view3">
+            <table>
+              <colgroup><col style="width:14%"><col style="width:36%"><col style="width:14%"><col></colgroup>
+              <tbody>
+                <tr>
+                  <th class="required">지급/회수 사유</th>
+                  <td><input class="inp" placeholder="지급/회수 사유를 입력해 주세요." value="4월 식대"></td>
+                  <th class="required">실행 일시</th>
+                  <td>
+                    <div style="display:flex;gap:8px;align-items:center">
+                      <select class="select" style="width:100px"><option>특정일</option><option>즉시</option></select>
+                      <input class="inp inp-date" type="date" value="2026-04-15">
+                      <select class="select" style="width:90px"><option>09:00</option></select>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Bulk Apply Box -->
+        <div class="bulk-apply" id="bulkApply">
+          <div class="title">⚡ 일괄 적용 — 체크한 대상자에게 아래 값을 한번에 적용합니다</div>
+          <div class="fields">
+            <div class="field">
+              <label>금액 (원)</label>
+              <input class="inp-cell" id="bulkAmt" value="200,000" style="width:120px">
+            </div>
+            <div class="field">
+              <label>실행 일시</label>
+              <div style="display:flex;gap:4px">
+                <select class="select-cell" id="bulkExecType" style="width:70px" onchange="toggleBulkDate()">
+                  <option value="immediate">즉시</option>
+                  <option value="fixed">특정일</option>
+                </select>
+                <input class="inp-cell" id="bulkDate" type="date" value="2026-04-15" style="width:130px;display:none">
+                <select class="select-cell" id="bulkTime" style="width:70px;display:none">
+                  <option>09:00</option><option>09:30</option><option>10:00</option><option>12:00</option><option>14:00</option><option>18:00</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>유효기간</label>
+              <div style="display:flex;gap:4px">
+                <select class="select-cell" id="bulkValidType" style="width:65px">
+                  <option value="month">개월</option><option value="monthEnd">지급월말</option><option value="yearEnd">지급연말</option>
+                </select>
+                <input class="inp-cell" id="bulkValidVal" value="1" style="width:50px">
+              </div>
+            </div>
+            <div class="field">
+              <label>사유</label>
+              <input class="inp-cell" id="bulkReason" placeholder="지급 사유" style="width:140px">
+            </div>
+            <div class="field">
+              <label>APP 문구</label>
+              <input class="inp-cell" id="bulkAppMsg" placeholder="최대 10자" maxlength="10" style="width:100px">
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <button class="btn btn-primary btn-sm" onclick="applyBulk()">✓ 선택 대상자에 적용</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Target Table -->
+        <div class="target-section">
+          <div class="target-header">
+            <div class="total">전체 <strong id="totalCount">0</strong>명</div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-outline btn-sm" onclick="addSampleEmployees()">＋ 대상자 등록</button>
+              <button class="btn btn-gray btn-sm" onclick="selectAll()">전체 선택</button>
+              <button class="btn btn-danger btn-sm" onclick="removeChecked()">선택 삭제</button>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="target-table">
+              <thead>
+                <tr>
+                  <th style="width:36px"><input type="checkbox" class="chk" id="checkAll" onchange="toggleCheckAll()"></th>
+                  <th style="width:40px">NO</th>
+                  <th style="width:80px">대상자</th>
+                  <th style="width:140px">카드 번호</th>
+                  <th style="width:120px">금액 (원)</th>
+                  <th style="width:180px">실행 일시</th>
+                  <th style="width:140px">유효기간</th>
+                  <th style="width:150px">사유</th>
+                  <th style="width:100px">APP 문구</th>
+                  <th style="width:40px">삭제</th>
+                </tr>
+              </thead>
+              <tbody id="targetBody">
+                <tr><td colspan="10" style="color:#bbb;padding:40px;font-size:14px">대상자를 등록해 주세요</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Summary Card -->
+          <div class="summary-card" id="summaryCard" style="display:none">
+            <div class="item"><span class="label">대상자 수</span><span class="value" id="sumCount">0명</span></div>
+            <div class="item"><span class="label">총 지급 금액</span><span class="value" id="sumAmount">0 원</span></div>
+            <div class="item"><span class="label">개별 설정 건수</span><span class="value" id="sumIndividual">0건</span></div>
+            <div class="item"><span class="label">OTP 인증</span><span class="value green" style="color:var(--green)">1회</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Buttons -->
+      <div class="btn-bottom">
+        <button class="btn btn-gray btn-lg btn-round" style="width:170px">취소</button>
+        <button class="btn btn-primary btn-lg btn-round" style="width:170px" onclick="doSubmit()">등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Mock employees
+const MOCK_EMPLOYEES = [
+  { name: "김철수", card: "9410-56**-****-1234", dept: "경영지원", empNo: "2024001" },
+  { name: "이영희", card: "9410-56**-****-2345", dept: "경영지원", empNo: "2024002" },
+  { name: "박지민", card: "9410-56**-****-3456", dept: "전략기획", empNo: "2024003" },
+  { name: "최도윤", card: "9410-56**-****-4567", dept: "디지털솔루션", empNo: "2024004" },
+  { name: "정하은", card: "9410-56**-****-5678", dept: "디지털솔루션", empNo: "2024005" },
+  { name: "강민준", card: "9410-56**-****-6789", dept: "자산관리", empNo: "2024006" },
+  { name: "윤서연", card: "9410-56**-****-7890", dept: "인사총무", empNo: "2024007" },
+  { name: "조현우", card: "9410-56**-****-8901", dept: "전략기획", empNo: "2024008" },
+  { name: "한예슬", card: "9410-56**-****-9012", dept: "경영지원", empNo: "2024009" },
+  { name: "임재범", card: "9410-56**-****-0123", dept: "자산관리", empNo: "2024010" },
+  { name: "송지효", card: "9410-56**-****-1357", dept: "디지털솔루션", empNo: "2024011" },
+  { name: "권나라", card: "9410-56**-****-2468", dept: "인사총무", empNo: "2024012" },
+  { name: "장기용", card: "9410-56**-****-3579", dept: "전략기획", empNo: "2024013" },
+  { name: "서강준", card: "9410-56**-****-4680", dept: "자산관리", empNo: "2024014" },
+  { name: "김다미", card: "9410-56**-****-5791", dept: "디지털솔루션", empNo: "2024015" },
+  { name: "남주혁", card: "9410-56**-****-6802", dept: "경영지원", empNo: "2024016" },
+  { name: "이지은", card: "9410-56**-****-7913", dept: "인사총무", empNo: "2024017" },
+  { name: "유연석", card: "9410-56**-****-8024", dept: "전략기획", empNo: "2024018" },
+  { name: "배수지", card: "9410-56**-****-9135", dept: "디지털솔루션", empNo: "2024019" },
+  { name: "박보검", card: "9410-56**-****-0246", dept: "자산관리", empNo: "2024020" }
+];
+
+let targets = [];
+let currentMode = 'individual';
+
+// Preset scenarios for individual entries
+const PRESETS = [
+  { reason: "4월 식대", appMsg: "4월식대", execType: "immediate", validType: "month", validVal: "1" },
+  { reason: "생일 축하금", appMsg: "생일축하", execType: "fixed", execDate: "2026-04-15", execTime: "09:00", validType: "month", validVal: "3" },
+  { reason: "프로젝트 인센티브", appMsg: "인센티브", execType: "fixed", execDate: "2026-04-20", execTime: "14:00", validType: "yearEnd", validVal: "" },
+  { reason: "야근 식대", appMsg: "야근식대", execType: "immediate", validType: "monthEnd", validVal: "" },
+  { reason: "출장비 선지급", appMsg: "출장비", execType: "fixed", execDate: "2026-04-10", execTime: "10:00", validType: "month", validVal: "1" }
+];
+
+const AMOUNTS = [200000, 50000, 300000, 100000, 150000, 200000, 50000, 500000, 100000, 80000,
+                 200000, 50000, 250000, 100000, 200000, 150000, 50000, 300000, 100000, 200000];
+
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', ['each','excel','individual'][i] === mode);
+  });
+  document.getElementById('bulkApply').style.display = mode === 'individual' ? 'block' : 'none';
+  document.getElementById('commonFields').style.display = mode !== 'individual' ? 'block' : 'none';
+  renderTable();
+  showStatus(mode === 'individual'
+    ? '💡 개별 설정 모드: 대상자마다 실행일시, 유효기간, 사유, APP문구를 개별로 설정할 수 있습니다.'
+    : mode === 'each' ? '기존 개별 등록 모드: 공통 설정 + 대상자별 금액만 설정' : '기존 일괄 등록 모드: Excel 업로드',
+    'info');
+}
+
+function addSampleEmployees() {
+  MOCK_EMPLOYEES.forEach((emp, i) => {
+    if (targets.find(t => t.empNo === emp.empNo)) return;
+    const preset = PRESETS[i % PRESETS.length];
+    targets.push({
+      ...emp,
+      checked: false,
+      amount: AMOUNTS[i].toLocaleString(),
+      execType: preset.execType,
+      execDate: preset.execDate || '',
+      execTime: preset.execTime || '09:00',
+      validType: preset.validType,
+      validVal: preset.validVal,
+      reason: preset.reason,
+      appMsg: preset.appMsg
+    });
+  });
+  renderTable();
+  showStatus(`✅ ${MOCK_EMPLOYEES.length}명 대상자가 등록되었습니다. 각 행에서 개별 설정을 수정할 수 있습니다.`, 'success');
+}
+
+function renderTable() {
+  const tbody = document.getElementById('targetBody');
+  document.getElementById('totalCount').textContent = targets.length;
+
+  if (targets.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10" style="color:#bbb;padding:40px;font-size:14px">대상자를 등록해 주세요</td></tr>';
+    document.getElementById('summaryCard').style.display = 'none';
+    return;
+  }
+
+  const isIndividual = currentMode === 'individual';
+
+  let html = '';
+  targets.forEach((t, i) => {
+    html += `<tr>
+      <td><input type="checkbox" class="chk" ${t.checked ? 'checked' : ''} onchange="targets[${i}].checked=this.checked;updateSummary()"></td>
+      <td>${i + 1}</td>
+      <td class="name-cell">${t.name}</td>
+      <td class="card-cell">${t.card}</td>
+      <td><input class="inp-cell" value="${t.amount}" style="text-align:right;width:100px" onchange="targets[${i}].amount=this.value;updateSummary()"></td>`;
+
+    if (isIndividual) {
+      html += `
+      <td>
+        <div style="display:flex;gap:3px;align-items:center">
+          <select class="select-cell" style="width:55px" onchange="targets[${i}].execType=this.value;this.parentElement.querySelector('.date-inputs').style.display=this.value==='fixed'?'flex':'none'">
+            <option value="immediate" ${t.execType==='immediate'?'selected':''}>즉시</option>
+            <option value="fixed" ${t.execType==='fixed'?'selected':''}>특정일</option>
+          </select>
+          <span class="date-inputs" style="display:${t.execType==='fixed'?'flex':'none'};gap:2px">
+            <input class="inp-cell" type="date" value="${t.execDate}" style="width:115px" onchange="targets[${i}].execDate=this.value">
+            <select class="select-cell" style="width:58px" onchange="targets[${i}].execTime=this.value">
+              ${['09:00','09:30','10:00','12:00','14:00','18:00'].map(v=>`<option ${t.execTime===v?'selected':''}>${v}</option>`).join('')}
+            </select>
+          </span>
+        </div>
+      </td>
+      <td>
+        <div style="display:flex;gap:3px">
+          <select class="select-cell" style="width:62px" onchange="targets[${i}].validType=this.value;this.nextElementSibling.style.display=this.value==='month'?'inline':'none'">
+            <option value="month" ${t.validType==='month'?'selected':''}>개월</option>
+            <option value="monthEnd" ${t.validType==='monthEnd'?'selected':''}>월말</option>
+            <option value="yearEnd" ${t.validType==='yearEnd'?'selected':''}>연말</option>
+          </select>
+          <input class="inp-cell" value="${t.validVal}" style="width:35px;display:${t.validType==='month'?'inline':'none'}" onchange="targets[${i}].validVal=this.value">
+        </div>
+      </td>
+      <td><input class="inp-cell" value="${t.reason}" style="width:130px;text-align:left" onchange="targets[${i}].reason=this.value"></td>
+      <td><input class="inp-cell" value="${t.appMsg}" maxlength="10" style="width:80px" onchange="targets[${i}].appMsg=this.value"></td>`;
+    } else {
+      html += '<td colspan="4" style="color:#bbb;font-size:12px">공통 설정 사용</td>';
+    }
+
+    html += `<td><button class="btn-del" onclick="removeTarget(${i})">✕</button></td></tr>`;
+  });
+  tbody.innerHTML = html;
+  updateSummary();
+}
+
+function updateSummary() {
+  const card = document.getElementById('summaryCard');
+  card.style.display = targets.length > 0 ? 'flex' : 'none';
+  document.getElementById('sumCount').textContent = targets.length + '명';
+  const total = targets.reduce((s, t) => s + (parseInt(t.amount.replace(/,/g, '')) || 0), 0);
+  document.getElementById('sumAmount').textContent = total.toLocaleString() + ' 원';
+  const indiv = targets.filter(t => t.reason || t.execDate || t.appMsg).length;
+  document.getElementById('sumIndividual').textContent = indiv + '건';
+}
+
+function removeTarget(i) {
+  targets.splice(i, 1);
+  renderTable();
+}
+
+function removeChecked() {
+  const checkedCount = targets.filter(t => t.checked).length;
+  if (checkedCount === 0) { alert('삭제할 대상자를 선택해 주세요.'); return; }
+  if (!confirm(`선택한 ${checkedCount}명을 삭제하시겠습니까?`)) return;
+  targets = targets.filter(t => !t.checked);
+  renderTable();
+}
+
+function selectAll() {
+  targets.forEach(t => t.checked = true);
+  document.getElementById('checkAll').checked = true;
+  renderTable();
+}
+
+function toggleCheckAll() {
+  const checked = document.getElementById('checkAll').checked;
+  targets.forEach(t => t.checked = checked);
+  renderTable();
+}
+
+function toggleBulkDate() {
+  const isFixed = document.getElementById('bulkExecType').value === 'fixed';
+  document.getElementById('bulkDate').style.display = isFixed ? 'inline' : 'none';
+  document.getElementById('bulkTime').style.display = isFixed ? 'inline' : 'none';
+}
+
+function applyBulk() {
+  const checked = targets.filter(t => t.checked);
+  if (checked.length === 0) { alert('적용할 대상자를 선택해 주세요.'); return; }
+
+  const amt = document.getElementById('bulkAmt').value;
+  const execType = document.getElementById('bulkExecType').value;
+  const execDate = document.getElementById('bulkDate').value;
+  const execTime = document.getElementById('bulkTime').value;
+  const validType = document.getElementById('bulkValidType').value;
+  const validVal = document.getElementById('bulkValidVal').value;
+  const reason = document.getElementById('bulkReason').value;
+  const appMsg = document.getElementById('bulkAppMsg').value;
+
+  checked.forEach(t => {
+    if (amt) t.amount = amt;
+    if (execType) { t.execType = execType; t.execDate = execDate; t.execTime = execTime; }
+    if (validType) { t.validType = validType; t.validVal = validVal; }
+    if (reason) t.reason = reason;
+    if (appMsg) t.appMsg = appMsg;
+  });
+
+  renderTable();
+  showStatus(`✅ ${checked.length}명에게 일괄 적용 완료. 이후 개별 행에서 수정할 수 있습니다.`, 'success');
+}
+
+function showStatus(text, type) {
+  const el = document.getElementById('statusMsg');
+  el.className = `status-msg show ${type}`;
+  document.getElementById('statusText').textContent = text;
+  setTimeout(() => el.classList.remove('show'), 5000);
+}
+
+function doSubmit() {
+  if (targets.length === 0) { alert('대상자를 등록해 주세요.'); return; }
+  const total = targets.reduce((s, t) => s + (parseInt(t.amount.replace(/,/g, '')) || 0), 0);
+  alert(`📱 OTP 인증 요청\n\n대상자 ${targets.length}명\n총 금액 ${total.toLocaleString()}원\n\n휴대폰으로 인증번호가 발송됩니다.\n(프로토타입 — 실제 인증은 수행되지 않습니다)`);
+}
+
+// Initialize
+setMode('individual');
+</script>
+</body>
+</html>
